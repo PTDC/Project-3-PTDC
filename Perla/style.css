@@ -10,6 +10,9 @@ body {
 header {
     background-color: #666;
     padding: 30px;
+    margin-left: 450px;
+    width: 30%;
+    border: 4px solid powderblue;
     text-align: center;
     font-size: 35px;
     color: white;
@@ -18,8 +21,8 @@ header {
 /* Create two columns/boxes that floats next to each other */
 nav {
     float: left;
-    width: 20%;
-    height: 300px; /* only for demonstration, should be removed */
+    width: 10%;
+    height: 150px; /* only for demonstration, should be removed */
     background: #ccc;
     padding: 20px;
 }
@@ -34,8 +37,9 @@ article {
     float: left;
     padding: 20px;
     width: 70%;
-    background-color: #f1f1f1;
-    height: 300px; /* only for demonstration, should be removed */
+    text-align: center;
+    background-color:white;
+    height: 150px; /* only for demonstration, should be removed */
 }
 
 /* Clear floats after the columns */
