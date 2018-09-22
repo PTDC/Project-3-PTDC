@@ -28,7 +28,8 @@ class SignupForm extends Component {
 				password: this.state.password
 			})
 			.then(response => {
-				console.log(response)
+                console.log(response)
+                console.log(response.data.errmsg)
 				if (!response.data.errmsg) {
 					console.log('youre good')
 					this.setState({
