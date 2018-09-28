@@ -53,6 +53,7 @@ class Profile extends Component {
                         <Jumbotron>
                             <h1>Adding Bucket List Items</h1>
                         </Jumbotron>
+                                
                         <form>
                             <FormGroup controlId="formControlsSelect">
                                 <ControlLabel>Select</ControlLabel>
@@ -110,6 +111,5 @@ class Profile extends Component {
         );
     }
 }
-
 
 export default Profile;
