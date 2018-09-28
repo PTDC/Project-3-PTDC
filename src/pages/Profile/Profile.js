@@ -33,6 +33,7 @@ class Profile extends Component {
                         <Jumbotron>
                             <h1>Adding Bucket List Items</h1>
                         </Jumbotron>
+                                
                         <form>
                             <Input
                                 value={this.state.title}
@@ -98,6 +99,5 @@ class Profile extends Component {
         );
     }
 }
-
 
 export default Profile;

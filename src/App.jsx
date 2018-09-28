@@ -28,6 +28,8 @@ const DisplayLinks = props => {
             // 		</li>
             // 	</ul>
             // </nav>
+
+
             <Navbar>
                 <Navbar.Header>
                     <Navbar.Brand>
@@ -94,7 +96,7 @@ const DisplayLinks = props => {
                     <Nav>
                         <Navbar.Brand>
                             <Link to="/login" className="nav-link">
-                                login
+                                Login
 						        </Link>
                         </Navbar.Brand>
                         <Navbar.Brand>
@@ -196,5 +198,4 @@ class App extends Component {
         )
     }
 }
-
 export default App
