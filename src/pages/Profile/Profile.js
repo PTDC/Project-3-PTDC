@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Jumbotron from "../../components/Jumbotron";
-// import API from "../../utils/API";
+import API from "../../utils/API";
 import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
@@ -8,22 +8,42 @@ import { Input, TextArea, FormBtn } from "../../components/Form";
 import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 
 class Profile extends Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
-            user: this.props,
-            select: null
+            user: this.props.user,
+            select: null,
+            bucket_desc: ""
         }
     }
     componentDidMount() {
-        console.log("hi")
         console.log(this.state)
     }
 
-    handleChange = e => {
-        this.setState({ [e.target.name]: e.target.value });
-        console.log(e.target.value)
-    };
+    handleInputChange = event => {
+        console.log(event.target)
+        const { name, value } = event.target;
+        console.log(name, value)
+        this.setState({
+          [name]: value
+        }, () => {
+            console.log(this.state)
+        });
+        
+      };
+      
+    handleFormSubmit = event => {
+        event.preventDefault();
+        if (this.state.title && this.state.author && this.state.user) {
+          API.createItem({
+            title: this.state.title,
+            author: this.state.author,
+            synopsis: this.state.synopsis
+          })
+            .then(res => this.loadBooks())
+            .catch(err => console.log(err));
+        }
+      };
 
     render() {
         return (
@@ -34,41 +54,33 @@ class Profile extends Component {
                             <h1>Adding Bucket List Items</h1>
                         </Jumbotron>
                         <form>
-                            <Input
-                                value={this.state.title}
-                                onChange={this.handleInputChange}
-                                name="title"
-                                placeholder="Title (required)"
-                            />
                             <FormGroup controlId="formControlsSelect">
                                 <ControlLabel>Select</ControlLabel>
                                 <FormControl
                                     name="select"
                                     componentClass="select"
-                                    onChange={this.handleChange}
+                                    onChange={this.handleInputChange}
                                 >
-                                    <option value="select">select</option>
+                                    <option value="select"></option>
                                     <option value="Go to">Go to</option>
-                                    <option value="Try">Try</option>
+                                    <option value="Eat">Eat</option>
+                                    <option value="Do">Do</option>
+                                    <option value="Learn">Learn</option>
+                                    <option value="Own">Own</option>
+                                    <option value="Meet">Meet</option>
                                 </FormControl>
                             </FormGroup>
-                            <Input
-                                value={this.state.author}
-                                onChange={this.handleInputChange}
-                                name="author"
-                                placeholder="Author (required)"
-                            />
                             <TextArea
-                                value={this.state.synopsis}
+                                value={this.state.bucket_desc}
                                 onChange={this.handleInputChange}
-                                name="synopsis"
-                                placeholder="Synopsis (Optional)"
+                                name="bucket_desc"
+                                placeholder="Bucket List Detail"
                             />
                             <FormBtn
-                                disabled={!(this.state.author && this.state.title)}
+                                disabled={!(this.state.bucket_desc && this.state.select)}
                                 onClick={this.handleFormSubmit}
                             >
-                                Submit Book
+                                Submit item
                             </FormBtn>
                         </form>
                     </Col>

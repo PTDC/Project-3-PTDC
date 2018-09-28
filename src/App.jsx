@@ -124,10 +124,12 @@ class App extends Component {
         axios.get('/auth/user').then(response => {
             console.log(response.data)
             if (!!response.data.user) {
-                console.log('THERE IS A USER')
+                console.log(response.data.user)
                 this.setState({
                     loggedIn: true,
                     user: response.data.user
+                }, () => {
+                    console.log(this.state.user)
                 })
             } else {
                 this.setState({
@@ -179,7 +181,7 @@ class App extends Component {
                 <DisplayLinks _logout={this._logout} loggedIn={this.state.loggedIn} user={this.state.user} />
                 {/*  ROUTES */}
                 {/* <Route exact path="/" component={Home} /> */}
-                <Route exact path="/profile" render={() => <Profile user={this.state.user} />} />
+                <Route exact path="/profile" render={() => <Profile user={this.state.user} test={console.log(this.state.user)} />} />
                 <Route exact path="/" render={() => <Home user={this.state.user} />} />
                 <Route
                     exact
