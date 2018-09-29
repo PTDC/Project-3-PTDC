@@ -4,7 +4,9 @@ mongoose.promise = Promise
 
 
 const itemsSchema = new Schema({
-    item_verb: { type: String, unique: false }
+    itemVerb: { type: String, unique: false, require: true },
+    itemFreeText: { type: String, unique: false, require: true },
+    itemAuthor: { type: String, unique: false, require: true }
 })
 
 

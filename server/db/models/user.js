@@ -14,7 +14,8 @@ const userSchema = new Schema({
 	google: {
 		googleId: { type: String, required: false }
 	},
-	photos: []
+    photos: [],
+    profileDescription: { type: String, unique: false }
 	// local: {
 	// 	email: { type: String, unique: true },
 	// 	password: { type: String }

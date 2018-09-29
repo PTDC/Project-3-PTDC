@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
 import { Input, TextArea, FormBtn } from "../../components/Form";
-import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, Image } from 'react-bootstrap';
+import pic from './perla.jpg';
 
 class Profile extends Component {
     constructor(props) {
@@ -13,7 +14,9 @@ class Profile extends Component {
         this.state = {
             user: this.props.user,
             select: null,
-            bucket_desc: ""
+            bucket_desc: "",
+            profile_desc: "",
+            image_url: ""
         }
     }
     componentDidMount() {
@@ -25,35 +28,69 @@ class Profile extends Component {
         const { name, value } = event.target;
         console.log(name, value)
         this.setState({
-          [name]: value
+            [name]: value
         }, () => {
             console.log(this.state)
         });
-        
-      };
-      
+
+    };
+
     handleFormSubmit = event => {
         event.preventDefault();
-        if (this.state.title && this.state.author && this.state.user) {
-          API.createItem({
-            title: this.state.title,
-            author: this.state.author,
-            synopsis: this.state.synopsis
-          })
-            .then(res => this.loadBooks())
-            .catch(err => console.log(err));
+        if (this.state.select && this.state.bucket_desc && this.state.user) {
+            API.createItem({
+                itemVerb: this.state.select,
+                itemFreeText: this.state.bucket_desc,
+                itemAuthor: this.state.user
+            })
+                .then(res => this.reloadListItems())
+                .catch(err => console.log(err));
         }
-      };
+    };
+
+    reloadListItems = () => {
+        API.getListItems()
+            .then(res =>
+                this.setState({ itemVerb: "", itemFreeText: "" })
+            )
+            .catch(err => console.log(err));
+    };
 
     render() {
         return (
             <Container fluid>
                 <Row>
+                    <Col size="md-3">
+                    </Col>
+                    <Col size="md-6">
+                        <Jumbotron>
+                            <h1>Profile Pic here</h1>
+                            <Image src={pic} thumbnail />
+                        </Jumbotron>
+                        <form>
+                            <TextArea
+                                value={this.state.profile_desc}
+                                onChange={this.handleInputChange}
+                                name="profile_desc"
+                                placeholder="Profile Description"
+                            />
+                            <FormBtn
+                                disabled={!(this.state.bucket_desc && this.state.select)}
+                                onClick={this.handleFormSubmit}
+                            >
+                                Update Profile
+                            </FormBtn>
+                        </form>
+                    </Col>
+                    <Col size="md-3">
+                    </Col>
+                </Row>
+                <Row>
                     <Col size="md-6">
                         <Jumbotron>
                             <h1>Adding Bucket List Items</h1>
                         </Jumbotron>
-                                
+
                         <form>
                             <FormGroup controlId="formControlsSelect">
                                 <ControlLabel>Select</ControlLabel>
