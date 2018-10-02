@@ -14,6 +14,8 @@ const dbConnection = require('./db') // loads our connection to the mongo databa
 const passport = require('./passport')
 const app = express()
 const PORT = process.env.PORT || 8080
+const routes = require("./routes");
+
 
 // ===== Middleware ====
 app.use(morgan('dev'))
@@ -31,6 +33,8 @@ app.use(
 		saveUninitialized: false
 	})
 )
+
+
 
 // ===== Passport ====
 app.use(passport.initialize())
@@ -77,6 +81,10 @@ app.use(function(err, req, res, next) {
 	console.error(err.stack)
 	res.status(500)
 })
+
+
+// Add routes, both API and view
+app.use(routes);
 
 // ==== Starting Server =====
 app.listen(PORT, () => {

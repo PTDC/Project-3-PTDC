@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Jumbotron from "../../components/Jumbotron";
+import DeleteBtn from "../../components/DeleteBtn";
 import API from "../../utils/API";
 import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../../components/Grid";
@@ -7,6 +8,8 @@ import { List, ListItem } from "../../components/List";
 import { Input, TextArea, FormBtn } from "../../components/Form";
 import { FormGroup, ControlLabel, FormControl, Image } from 'react-bootstrap';
 import pic from './perla.jpg';
+import { Redirect } from 'react-router-dom';
+import axios from "axios";
 
 class Profile extends Component {
     constructor(props) {
@@ -16,11 +19,31 @@ class Profile extends Component {
             select: null,
             bucket_desc: "",
             profile_desc: "",
-            image_url: ""
+            image_url: "",
+            redirect: false,
+            bucketList: []
         }
     }
+
     componentDidMount() {
-        console.log(this.state)
+        console.log(this.state);
+        axios.get('/auth/user').then(response => {
+            console.log(response.data)
+            if (!response.data.user) {
+                this.setState({
+                    redirect: true
+                }, () => {
+                    console.log("redirecting...")
+                })
+            } else {
+                this.setState({
+                    redirect: false,
+                    user: response.data.user
+                }, () => {
+                    this.reloadProfileDesc(response.data.user._id);
+                })
+            }
+        })
     }
 
     handleInputChange = event => {
@@ -38,35 +61,60 @@ class Profile extends Component {
     handleFormSubmit = event => {
         event.preventDefault();
         if (this.state.select && this.state.bucket_desc && this.state.user) {
+            console.log({
+                itemVerb: this.state.select,
+                itemFreeText: this.state.bucket_desc,
+                itemAuthor: this.state.user._id
+            })
             API.createItem({
                 itemVerb: this.state.select,
                 itemFreeText: this.state.bucket_desc,
-                itemAuthor: this.state.user
-            })
-                .then(res => this.reloadListItems())
+                itemAuthor: this.state.user._id
+            }).then(res => console.log("Return from Post Bucket:"))
+                // .then(res => this.reloadListItems(res.data._id))
                 .catch(err => console.log(err));
         }
     };
 
-    reloadListItems = () => {
-        API.getListItems()
+    handleProfileUpdate = event => {
+        event.preventDefault();
+        if (this.state.profile_desc && this.state.user._id) {
+            API.updateProfile(
+                this.state.user._id,
+                { profileDescription: this.state.profile_desc })
+                .then(res => this.reloadProfileDesc(this.state.user._id))
+                .catch(err => console.log(err));
+        }
+    };
+
+    reloadListItems = (id) => {
+        console.log(id)
+        API.getListItems(id)
             .then(res =>
-                this.setState({ itemVerb: "", itemFreeText: "" })
+                this.setState({ bucketList: res.data.bucketList })
+            )
+            .catch(err => console.log(err));
+    };
+
+    reloadProfileDesc = (profileId) => {
+        API.getProfileDesc(profileId)
+            .then(res =>
+                this.setState({ profile_desc: res.data.profileDescription })
             )
             .catch(err => console.log(err));
     };
 
     render() {
+        if (this.state.redirect) {
+            return <Redirect to={{ pathname: '/login' }} />
+        }
         return (
             <Container fluid>
                 <Row>
-                    <Col size="md-3">
-                    </Col>
+                    {/* <Col size="md-3">
+                    </Col> */}
                     <Col size="md-6">
-                        <Jumbotron>
-                            <h1>Profile Pic here</h1>
-                            <Image src={pic} thumbnail />
-                        </Jumbotron>
+                        <Image src={pic} thumbnail />
                         <form>
                             <TextArea
                                 value={this.state.profile_desc}
@@ -75,8 +123,8 @@ class Profile extends Component {
                                 placeholder="Profile Description"
                             />
                             <FormBtn
-                                disabled={!(this.state.bucket_desc && this.state.select)}
-                                onClick={this.handleFormSubmit}
+                                disabled={!(this.state.profile_desc && this.state.user)}
+                                onClick={this.handleProfileUpdate}
                             >
                                 Update Profile
                             </FormBtn>
@@ -124,24 +172,22 @@ class Profile extends Component {
                     </Col>
                     <Col size="md-6 sm-12">
                         <Jumbotron>
-                            <h1>Books On My List</h1>
+                            <h1>Bucket List Items:</h1>
                         </Jumbotron>
-                        {/* {this.state.books.length ? (
+                        {this.state.bucketList.length ? (
                             <List>
-                                {this.state.books.map(book => (
-                                    <ListItem key={book._id}>
-                                        <Link to={"/books/" + book._id}>
-                                            <strong>
-                                                {book.title} by {book.author}
-                                            </strong>
-                                        </Link>
-                                        <DeleteBtn onClick={() => this.deleteBook(book._id)} />
+                                {this.state.bucketList.map(item => (
+                                    <ListItem key={item._id}>
+                                        <strong>
+                                            {item.itemVerb}: {item.itemFreeText}
+                                        </strong>
+                                        <DeleteBtn onClick={() => this.deleteBook(item._id)} />
                                     </ListItem>
                                 ))}
                             </List>
                         ) : (
                                 <h3>No Results to Display</h3>
-                            )} */}
+                            )}
                     </Col>
                 </Row>
             </Container>

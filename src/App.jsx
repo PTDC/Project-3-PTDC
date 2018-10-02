@@ -163,7 +163,7 @@ class App extends Component {
                 password
             })
             .then(response => {
-                console.log(response)
+                console.log(response.data.user)
                 if (response.status === 200) {
                     // update the state
                     this.setState({

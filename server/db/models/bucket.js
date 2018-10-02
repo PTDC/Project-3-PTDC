@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 mongoose.promise = Promise
 
 
-const itemsSchema = new Schema({
+const bucketSchema = new Schema({
     itemVerb: { type: String, unique: false, require: true },
     itemFreeText: { type: String, unique: false, require: true },
     itemAuthor: { type: String, unique: false, require: true }
@@ -11,5 +11,5 @@ const itemsSchema = new Schema({
 
 
 
-const Items = mongoose.model('Items', itemsSchema)
-module.exports = Items
+const Bucket = mongoose.model('Bucket', bucketSchema)
+module.exports = Bucket

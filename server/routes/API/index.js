@@ -1,7 +1,9 @@
 const router = require("express").Router();
 const profileRoutes = require("./profile");
+const bucketRoutes = require("./bucket");
 
-// Book routes
+// Profile routes
 router.use("/profile", profileRoutes);
+router.use("/bucket", bucketRoutes);
 
 module.exports = router;
