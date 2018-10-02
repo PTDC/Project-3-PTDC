@@ -111,10 +111,12 @@ class Profile extends Component {
         return (
             <Container fluid>
                 <Row>
-                    {/* <Col size="md-3">
-                    </Col> */}
-                    <Col size="md-6">
-                        <Image src={pic} thumbnail />
+                    <Col size="md-12">
+                    <Image src={pic} thumbnail />
+                    </Col>
+                    <Col size="md-4"></Col>
+                    <Col size="md-4">
+                        
                         <form>
                             <TextArea
                                 value={this.state.profile_desc}
