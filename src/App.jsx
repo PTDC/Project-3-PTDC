@@ -89,19 +89,19 @@ const DisplayLinks = props => {
                     <Navbar.Header>
                         <Navbar.Brand>
                             <Link to="/" className="nav-link">
-                                Home
+                                HOME
             			</Link>
                         </Navbar.Brand>
                     </Navbar.Header>
                     <Nav>
                         <Navbar.Brand>
                             <Link to="/login" className="nav-link">
-                                Login
+                                LOGIN
 						        </Link>
                         </Navbar.Brand>
                         <Navbar.Brand>
                             <Link to="/signup" className="nav-link">
-                                Sign up
+                                SIGN UP
 						        </Link>
                         </Navbar.Brand>
                     </Nav>

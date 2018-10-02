@@ -29,7 +29,8 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh; */
-  background: rgb(152, 189, 214);
+  /*background: rgb(152, 189, 214); */
+  background-image: url('../src/pages/Profile/wooden_hearts.jpg');
 }
 
 * {
@@ -41,14 +42,14 @@ body {
 h1 {
   margin-top: 50px;
   font-size: 45px;
-  color: rgb(1, 54, 78);
+  color: red;
   text-transform: uppercase;
 }
 
 h2 {
   margin-top: 40px;
   font-size: 30px;
-  color: rgb(78, 29, 1);
+  color: lime;
   text-transform: uppercase;
 }
 
@@ -66,4 +67,8 @@ button {
 
 .red {
   background: red;
+}
+
+.nav-link {
+  color: orange; 
 }
