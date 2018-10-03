@@ -112,10 +112,12 @@ class Profile extends Component {
         return (
             <Container fluid>
                 <Row>
-                    {/* <Col size="md-3">
-                    </Col> */}
-                    <Col size="md-6">
-                        <Image src={pic} thumbnail />
+                    <Col size="md-12">
+                    <Image src={pic} thumbnail />
+                    </Col>
+                    <Col size="md-4"></Col>
+                    <Col size="md-4">
+                        
                         <form>
                             <TextArea
                                 value={this.state.profile_desc}
@@ -136,9 +138,9 @@ class Profile extends Component {
                 </Row>
                 <Row>
                     <Col size="md-6">
-                        <Jumbotron>
-                            <h1>Adding Bucket List Items</h1>
-                        </Jumbotron>
+                        
+                            <h2>Adding Bucket List Items</h2>
+                        
 
                         <form>
                             <FormGroup controlId="formControlsSelect">
@@ -150,6 +152,7 @@ class Profile extends Component {
                                 >
                                     <option value="select"></option>
                                     <option value="Go to">Go to</option>
+                                    <option value="See">See</option>
                                     <option value="Eat">Eat</option>
                                     <option value="Do">Do</option>
                                     <option value="Learn">Learn</option>
@@ -172,9 +175,9 @@ class Profile extends Component {
                         </form>
                     </Col>
                     <Col size="md-6 sm-12">
-                        <Jumbotron>
-                            <h1>Bucket List Items:</h1>
-                        </Jumbotron>
+                       
+                            <h2>Bucket List Items:</h2>
+                        
                         {this.state.bucketList.length ? (
                             <List>
                                 {this.state.bucketList.map(item => (
