@@ -40,7 +40,8 @@ class Profile extends Component {
                     redirect: false,
                     user: response.data.user
                 }, () => {
-                    this.reloadProfileDesc(response.data.user._id);
+                    this.reloadProfileDesc(response.data.user._id)
+                    this.reloadListItems(response.data.user._id);
                 })
             }
         })
@@ -70,9 +71,7 @@ class Profile extends Component {
                 itemVerb: this.state.select,
                 itemFreeText: this.state.bucket_desc,
                 itemAuthor: this.state.user._id
-            }).then(res => console.log("Return from Post Bucket:"))
-                // .then(res => this.reloadListItems(res.data._id))
-                .catch(err => console.log(err));
+            }).then(res => this.reloadListItems(this.state.user._id)).catch(err => console.log(err))
         }
     };
 
@@ -88,11 +87,13 @@ class Profile extends Component {
     };
 
     reloadListItems = (id) => {
-        console.log(id)
+        // console.log(id)
         API.getListItems(id)
-            .then(res =>
-                this.setState({ bucketList: res.data.bucketList })
-            )
+            .then(res => {
+                console.log("here is the res inside getListItems: " + res.data.itemFreeText);
+                this.setState({ bucketList: res.data });
+                console.log("Here's the bucket list! " + this.state.bucketList)
+            })
             .catch(err => console.log(err));
     };
 
@@ -177,6 +178,7 @@ class Profile extends Component {
                         {this.state.bucketList.length ? (
                             <List>
                                 {this.state.bucketList.map(item => (
+                                    // <strong> {console.log(this.state)} </strong>
                                     <ListItem key={item._id}>
                                         <strong>
                                             {item.itemVerb}: {item.itemFreeText}

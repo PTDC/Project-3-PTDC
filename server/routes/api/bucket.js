@@ -8,6 +8,7 @@ router.route("/")
 // Matches with "/api/bucket/:id"
 router
   .route("/:id")
+//   .get(bucketController.find)
   .get(bucketController.findById)
   .put(bucketController.update)
   .delete(bucketController.remove);

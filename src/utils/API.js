@@ -16,16 +16,17 @@ export default {
     },
 
     updateProfile: function(id, description) {
-        console.log(id, description)
+        // console.log(id, description)
         return axios.put("/api/profile/" + id, description);
     },
 
     getListItems: function (profileId) {
+        // console.log(profileId)
         return axios.get("/api/bucket/" + profileId);
     },
 
     getProfileDesc: function (profileId) {
-        console.log(profileId)
+        // console.log(profileId)
         return axios.get("/api/profile/" + profileId);
     }
 };
