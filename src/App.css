@@ -30,7 +30,9 @@ body {
   align-items: center;
   height: 100vh; */
   /*background: rgb(152, 189, 214); */
-  background-image: url('../src/pages/Profile/wooden_hearts.jpg');
+  background-size: 260%;
+  background-repeat: no-repeat;
+  background-image: url('../src/pages/Profile/clouds.jpeg');
 }
 
 * {
@@ -40,16 +42,17 @@ body {
 
 
 h1 {
+  font-family: Bungee Shade;
   margin-top: 50px;
-  font-size: 45px;
-  color: red;
+  font-size: 100px;
+  color: white;
   text-transform: uppercase;
 }
 
 h2 {
   margin-top: 40px;
-  font-size: 30px;
-  color: lime;
+  font-size: 60px;
+  color:white;
   text-transform: uppercase;
 }
 
@@ -70,5 +73,5 @@ button {
 }
 
 .nav-link {
-  color: orange; 
+  color: white; 
 }

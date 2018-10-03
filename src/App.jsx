@@ -38,6 +38,10 @@ const DisplayLinks = props => {
             			</Link>
                     </Navbar.Brand>
                 </Navbar.Header>
+                <Link to="/profile" className="nav-link">
+                        Profile
+                    </Link>
+
                 <Nav>
                     <Link to="#" className="nav-link" onClick={props._logout}>
                         Logout
@@ -49,10 +53,7 @@ const DisplayLinks = props => {
                                 { <Route exact path="/inbox" component={Inbox} /> }  */}
                         </Switch>
                     </Router>
-                    <Link to="/profile" className="nav-link">
-                        Profile
-                    </Link>
-
+                
                     {/* <NavItem eventKey={2} href="#">
                         Link
                     </NavItem>
@@ -177,7 +178,7 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <h1>This is the main App component</h1>
+                <h1>Bucket List</h1>
                 <Header user={this.state.user} />
                 {/* LINKS to our different 'pages' */}
                 <DisplayLinks _logout={this._logout} loggedIn={this.state.loggedIn} user={this.state.user} />

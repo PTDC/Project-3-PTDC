@@ -39,6 +39,7 @@ article {
     width: 70%;
     text-align: center;
     background-color:white;
+    font-family: 'Bungee Shade', cursive;
     height: 150px; /* only for demonstration, should be removed */
 }
 
