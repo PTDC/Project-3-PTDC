@@ -31,5 +31,10 @@ export default {
     },
     deleteItem: function (id) {
         return axios.delete("/api/bucket/" + id);
+    },
+
+    saveImage: function(id, image) {
+        console.log(id, image)
+        return axios.put("/api/profile/" + id, image);
     }
 };

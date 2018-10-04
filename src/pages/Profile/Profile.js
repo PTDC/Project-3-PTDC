@@ -65,6 +65,28 @@ class Profile extends Component {
 
     };
 
+    handleFileSelect = evt => {
+        var f = evt.target.files[0]; // FileList object
+        var reader = new FileReader();
+        // Closure to capture the file information.
+        reader.onload = (function(theFile) {
+          return function(e) {
+            var binaryData = e.target.result;
+            //Converting Binary Data to base 64
+            var base64String = window.btoa(binaryData);
+            console.log("im on 77");
+            //showing file converted to base64
+            API.saveImage(
+                this.state.user._id,
+                { profileImage: base64String })
+                .then(res => this.reloadProfileImage(this.state.user._id))
+                .catch(err => console.log(err));
+          };
+        
+        });
+    };
+    
+
     handleFormSubmit = event => {
         event.preventDefault();
         if (this.state.select && this.state.bucket_desc && this.state.user) {
@@ -111,6 +133,14 @@ class Profile extends Component {
             .catch(err => console.log(err));
     };
 
+    reloadProfileImage = (profileId) => {
+        API.getProfileImage(profileId)
+            .then(res =>
+                this.setState({ profile_desc: res.data.profileImage })
+            )
+            .catch(err => console.log(err));
+    };
+
     render() {
         if (this.state.redirect) {
             return <Redirect to={{ pathname: '/login' }} />
@@ -119,7 +149,11 @@ class Profile extends Component {
             <Container fluid>
                 <Row>
                     <Col size="md-12">
-                    <Image src={pic} thumbnail />
+                  {/* <Image src={`data:image/jpeg;base64,${pic}`} thumbnail /> */}
+                    <input type="file" id="files" name="files" />
+                    <br/>
+                    <textarea id="base64" rows="5"></textarea>
+                    
                     </Col>
                     <Col size="md-4"></Col>
                     <Col size="md-4">
