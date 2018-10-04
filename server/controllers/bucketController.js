@@ -25,11 +25,31 @@ module.exports = {
     // },
     create: async (req, res) => {
         try {
-            const create = await db.Bucket.create(req.body)
-            // console.log("create: " + create)
-            const update_user = await db.User.update({_id: req.body.itemAuthor}, {$push: {bucketItems: create._id}})
-            // console.log("update: " + update_user)
-            res.status(200).json(update_user)
+            const create_bucket = await db.Bucket.create(req.body)
+            const user = await db.User.findById(req.body.itemAuthor).populate('bucketItems')
+            
+            //Get all items
+            var verbs = {}
+            var primaryVerb
+            var highestCount = 0;
+            
+            var i;
+            for (i = 0; i < user.bucketItems.length; i++) {
+                var verb = user.bucketItems[i].itemVerb
+                var count = verbs[verb] + 1 || 1
+                verbs[verb] = count
+            }
+            verbs[create_bucket.itemVerb] = verbs[create_bucket.itemVerb] + 1 || 1
+            
+            for (var key in verbs) {
+                if (verbs[key] > highestCount) {
+                    highestCount = verbs[key]
+                    primaryVerb = key
+                }
+            }
+            
+            const update_user = await db.User.update({_id: req.body.itemAuthor}, {$push: {bucketItems: create_bucket._id}, primaryVerb: primaryVerb })
+            res.json(update_user)
         } catch(err) {
             // console.log(err)
             res.status(422).json(err)
@@ -49,29 +69,3 @@ module.exports = {
             .catch(err => res.status(422).json(err));
     }
 };
-
-const create_bucket = await db.Bucket.create(req.body)
-const user = await db.User.findById(req.body.itemAuthor).populate('bucketItems')
-
-//Get all items
-var verbs = {}
-var primaryVerb
-var highestCount = 0;
-
-var i;
-for (i = 0; i < user.bucketItems.length; i++) {
-    var verb = user.bucketItems[i].itemVerb
-    var count = verbs[verb] + 1 || 1
-    verbs[verb] = count
-}
-verbs[create_bucket.itemVerb] = verbs[create_bucket.itemVerb] + 1 || 1
-
-for (var key in verbs) {
-    if (verbs[key] > highestCount) {
-        highestCount = verbs[key]
-        primaryVerb = key
-    }
-}
-
-const update_user = await db.User.update({_id: req.body.itemAuthor}, {$push: {bucketItems: create_bucket._id}, primaryVerb: primaryVerb })
-res.json(update_user)
