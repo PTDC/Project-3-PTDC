@@ -23,23 +23,17 @@ module.exports = {
     //         .then(console.log("here it is: " + Object.keys(res)))
     //         .catch(err => res.status(422).json(err));
     // },
-    create: function (req, res) {
-        // console.log("I am in the bucketController create function")
-        // console.log(req.body)
-        db.Bucket
-            .create(req.body)
-            .then(dbModel => {
-                console.log("req body itemAuthor"+ req.body.itemAuthor)
-                console.log("dbModel id"+ dbModel._id)
-                db.User
-                    .update(
-                        { _id: req.body.itemAuthor },
-                        { $push: { bucketItems: dbModel._id } }
-                    )
-                    .then(res => res.json(res))
-                    .catch(err => res.status(422).json(err));
-            })
-            .catch(err => res.status(422).json(err));
+    create: async (req, res) => {
+        try {
+            const create = await db.Bucket.create(req.body)
+            // console.log("create: " + create)
+            const update_user = await db.User.update({_id: req.body.itemAuthor}, {$push: {bucketItems: create._id}})
+            // console.log("update: " + update_user)
+            res.status(200).json(update_user)
+        } catch(err) {
+            // console.log(err)
+            res.status(422).json(err)
+        }
     },
     update: function (req, res) {
         db.Bucket
