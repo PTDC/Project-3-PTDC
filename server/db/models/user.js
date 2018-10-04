@@ -14,7 +14,7 @@ const userSchema = new Schema({
     // google: {
     // 	googleId: { type: String, required: false }
     // },
-    profileDescription: { type: String, default: "Enter profile description here", unique: false },
+    profileDescription: { type: String, default: "", unique: false },
     photos: [],
     bucketItems: [{
         type: Schema.Types.ObjectId,

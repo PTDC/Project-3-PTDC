@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch, Link, Redirect } from 'react-router-dom'
 import './App.css'
 import LoginForm from './components/Login/LoginForm'
 import SignupForm from './components/SignupForm'
@@ -39,7 +39,7 @@ const DisplayLinks = props => {
                     </Navbar.Brand>
                 </Navbar.Header>
                 <Link to="/profile" className="nav-link">
-                        Profile
+                    Profile
                     </Link>
 
                 <Nav>
@@ -53,7 +53,7 @@ const DisplayLinks = props => {
                                 { <Route exact path="/inbox" component={Inbox} /> }  */}
                         </Switch>
                     </Router>
-                
+
                     {/* <NavItem eventKey={2} href="#">
                         Link
                     </NavItem>
@@ -118,7 +118,8 @@ class App extends Component {
         super()
         this.state = {
             loggedIn: false,
-            user: null
+            user: null,
+            redirect: false
         }
         this._logout = this._logout.bind(this)
         this._login = this._login.bind(this)
@@ -151,8 +152,10 @@ class App extends Component {
             if (response.status === 200) {
                 this.setState({
                     loggedIn: false,
-                    user: null
+                    user: null,
+                    redirect: true
                 })
+
             }
         })
     }
@@ -176,6 +179,9 @@ class App extends Component {
     }
 
     render() {
+        // if (this.state.redirect) {
+        //     return <Redirect to={"/login"} />
+        // }
         return (
             <div className="App">
                 <h1>Bucket List</h1>
@@ -184,18 +190,20 @@ class App extends Component {
                 <DisplayLinks _logout={this._logout} loggedIn={this.state.loggedIn} user={this.state.user} />
                 {/*  ROUTES */}
                 {/* <Route exact path="/" component={Home} /> */}
-                <Route exact path="/profile" render={() => <Profile user={this.state.user} test={console.log(this.state.user)} />} />
-                <Route exact path="/" render={() => <Home user={this.state.user} />} />
-                <Route
-                    exact
-                    path="/login"
-                    render={() =>
-                        <LoginForm
-                            _login={this._login}
-                            _googleSignin={this._googleSignin}
-                        />}
-                />
-                <Route exact path="/signup" component={SignupForm} />
+                <Switch>
+                    <Route exact path="/profile" render={() => <Profile user={this.state.user} test={console.log(this.state.user)} />} />
+                    <Route exact path="/" render={() => <Home user={this.state.user} />} />
+                    <Route
+                        exact
+                        path="/login"
+                        render={() =>
+                            <LoginForm
+                                _login={this._login}
+                                _googleSignin={this._googleSignin}
+                            />}
+                    />
+                    <Route exact path="/signup" component={SignupForm} />
+                </Switch>
                 {/* <LoginForm _login={this._login} /> */}
             </div>
         )

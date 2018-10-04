@@ -47,6 +47,12 @@ class Profile extends Component {
         })
     }
 
+    deleteBook = id => {
+        API.deleteItem(id)
+          .then(res => this.reloadListItems(this.state.user._id))
+          .catch(err => console.log(err));
+      };
+
     handleInputChange = event => {
         console.log(event.target)
         const { name, value } = event.target;

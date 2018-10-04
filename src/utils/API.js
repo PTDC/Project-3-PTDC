@@ -28,5 +28,8 @@ export default {
     getProfileDesc: function (profileId) {
         // console.log(profileId)
         return axios.get("/api/profile/" + profileId);
+    },
+    deleteItem: function (id) {
+        return axios.delete("/api/bucket/" + id);
     }
 };
