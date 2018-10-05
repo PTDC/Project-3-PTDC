@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Jumbotron from "../../components/Jumbotron";
 import DeleteBtn from "../../components/DeleteBtn";
+import Upload from "../../components/Upload"
 import API from "../../utils/API";
 import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../../components/Grid";
@@ -49,9 +50,9 @@ class Profile extends Component {
 
     deleteBook = id => {
         API.deleteItem(id)
-          .then(res => this.reloadListItems(this.state.user._id))
-          .catch(err => console.log(err));
-      };
+            .then(res => this.reloadListItems(this.state.user._id))
+            .catch(err => console.log(err));
+    };
 
     handleInputChange = event => {
         console.log(event.target)
@@ -65,14 +66,52 @@ class Profile extends Component {
 
     };
 
+    get_img_url = (event) => {
+        console.log(event)
+        this.setState({
+            image_url: event
+        }, () => {
+            console.log(this.state)
+            API.updateProfile(
+                this.state.user._id,
+                { image_url: this.state.image_url })
+                .then(res => this.reloadProfileDesc(this.state.user._id))
+                .catch(err => console.log(err));
+        })
+
+    }
+
+    // handleFileSelect = evt => {
+    //     var f = evt.target.files[0]; // FileList object
+    //     var reader = new FileReader();
+    //     // Closure to capture the file information.
+    //     reader.onload = (function (theFile) {
+    //         return function (e) {
+    //             var binaryData = e.target.result;
+    //             //Converting Binary Data to base 64
+    //             var base64String = window.btoa(binaryData);
+    //             console.log("im on 77");
+    //             this.setState({ image_url: base64String })
+    //             //showing file converted to base64
+    //             API.saveImage(
+    //                 this.state.user._id,
+    //                 { profileImage: base64String })
+    //                 .then(res => this.reloadProfileImage(this.state.user._id))
+    //                 .catch(err => console.log(err));
+    //         };
+
+    //     });
+    // };
+
+
     handleFormSubmit = event => {
         event.preventDefault();
         if (this.state.select && this.state.bucket_desc && this.state.user) {
-            console.log({
-                itemVerb: this.state.select,
-                itemFreeText: this.state.bucket_desc,
-                itemAuthor: this.state.user._id
-            })
+            // console.log({
+            //     itemVerb: this.state.select,
+            //     itemFreeText: this.state.bucket_desc,
+            //     itemAuthor: this.state.user._id
+            // })
             API.createItem({
                 itemVerb: this.state.select,
                 itemFreeText: this.state.bucket_desc,
@@ -96,17 +135,31 @@ class Profile extends Component {
         // console.log(id)
         API.getListItems(id)
             .then(res => {
-                console.log("here is the res inside getListItems: " + res.data.itemFreeText);
+                // console.log("here is the res inside getListItems: " + res.data.itemFreeText);
                 this.setState({ bucketList: res.data });
-                console.log("Here's the bucket list! " + this.state.bucketList)
+                // console.log("Here's the bucket list! " + this.state.bucketList)
             })
             .catch(err => console.log(err));
     };
 
     reloadProfileDesc = (profileId) => {
         API.getProfileDesc(profileId)
+            .then(res => {
+                console.log(res.data)
+                this.setState({
+                    profile_desc: res.data.profileDescription,
+                    image_url: res.data.image_url
+                }, () => {
+                    console.log(this.state)
+                })
+            })
+            .catch(err => console.log(err));
+    };
+
+    reloadProfileImage = (profileId) => {
+        API.getProfileImage(profileId)
             .then(res =>
-                this.setState({ profile_desc: res.data.profileDescription })
+                this.setState({ profile_desc: res.data.profileImage })
             )
             .catch(err => console.log(err));
     };
@@ -118,12 +171,29 @@ class Profile extends Component {
         return (
             <Container fluid>
                 <Row>
-                    <Col size="md-12">
-                    <Image src={pic} thumbnail />
-                    </Col>
+                    {/* <Col size="md-12"> */}
+                    {/* <Image src={`data:image/jpeg;base64,${this.state.image_url}`} thumbnail /> */}
+                    {/* <input type="file" id="files" name="files" />
+                        <br />
+                        <textarea id="base64" rows="5"></textarea> */}
+
+                    {/* </Col> */}
                     <Col size="md-4"></Col>
                     <Col size="md-4">
-                        
+
+                        {/* <form onSubmit={this.handleFileSelect}>
+                            <label>Upload File:</label>
+                            <input
+                                type="file"
+                                name="input"
+                            />
+                            <button type="submit">Upload</button>
+                        </form> */}
+                        <Upload
+                            get_img_url={this.get_img_url}
+                            img_prop = {this.state.image_url}
+                            
+                        />
                         <form>
                             <TextArea
                                 value={this.state.profile_desc}
@@ -144,9 +214,9 @@ class Profile extends Component {
                 </Row>
                 <Row>
                     <Col size="md-6">
-                        
-                            <h2>Adding Bucket List Items</h2>
-                        
+
+                        <h2>Adding Bucket List Items</h2>
+
 
                         <form>
                             <FormGroup controlId="formControlsSelect">
@@ -181,9 +251,9 @@ class Profile extends Component {
                         </form>
                     </Col>
                     <Col size="md-6 sm-12">
-                       
-                            <h2>Bucket List Items:</h2>
-                        
+
+                        <h2>Bucket List Items:</h2>
+
                         {this.state.bucketList.length ? (
                             <List>
                                 {this.state.bucketList.map(item => (
