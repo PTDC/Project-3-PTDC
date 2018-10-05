@@ -15,9 +15,9 @@ export default {
         return axios.post("/api/bucket/", item);
     },
 
-    updateProfile: function(id, description) {
-        // console.log(id, description)
-        return axios.put("/api/profile/" + id, description);
+    updateProfile: function(id, property) {
+        console.log(id, property)
+        return axios.put("/api/profile/" + id, property);
     },
 
     getListItems: function (profileId) {
@@ -33,8 +33,8 @@ export default {
         return axios.delete("/api/bucket/" + id);
     },
 
-    saveImage: function(id, image) {
-        console.log(id, image)
-        return axios.put("/api/profile/" + id, image);
-    }
+    // saveImage: function(id, image) {
+    //     console.log(id, image)
+    //     return axios.put("/api/profile/" + id, image);
+    // }
 };
