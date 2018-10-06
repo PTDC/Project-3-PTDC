@@ -56,6 +56,14 @@ h2 {
   text-transform: uppercase;
 }
 
+h3 {
+  color:greenyellow;
+}
+
+h5 {
+  color:lightcoral;
+}
+
 button {
  margin: 30px;
  font-size: 18px;
@@ -74,4 +82,8 @@ button {
 
 .nav-link {
   color: white; 
+}
+
+h4{
+  color:red;
 }

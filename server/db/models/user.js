@@ -21,7 +21,8 @@ const userSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "Bucket"
     }],
-    prop2: []
+    prop2: [],
+    primaryVerb: {type: String}
     // local: {
     // 	email: { type: String, unique: true },
     // 	password: { type: String }
