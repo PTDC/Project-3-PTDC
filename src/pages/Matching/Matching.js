@@ -19,7 +19,7 @@ class Matching extends Component {
             username: null,
             target_Name: null,
             target_ProfileDesc: null,
-            target_bucketList: [],
+            bucketList: [],
             primaryVerb: null
         }
     }
@@ -46,6 +46,20 @@ class Matching extends Component {
         })
     }
 
+    reloadListItems = (id) => {
+        // console.log(id)
+        API.getListItems(id)
+            .then(res => {
+                console.log(res.data)
+                // console.log("here is the res inside getListItems: " + res.data.itemFreeText);
+                this.setState({ bucketList: res.data }, () => {
+                    console.log(this.state.bucketList)
+                });
+                // console.log("Here's the bucket list! " + this.state.bucketList)
+            })
+            .catch(err => console.log(err));
+    };
+
     matchUser = (id) => {
         // console.log("in first matchUser line")
         // console.log(id)
@@ -60,16 +74,16 @@ class Matching extends Component {
                     API.matchUserCall(this.state.primaryVerb)
                         .then(res => {
                             console.log(res.data)
+                            this.reloadListItems(res.data[0]._id);
                             this.setState({
-                            target_Name: res.data[0].local.username,
-                            target_ProfileDesc: res.data[0].profileDescription,
-                            target_bucketList: res.data[0].bucketList
+                                target_Name: res.data[0].local.username,
+                                target_ProfileDesc: res.data[0].profileDescription
                             }, () => {
                                 console.log("check this state after matchUserCall: " + this.state.target_Name)
                             })
                             //things
-                        }  
-                    )
+                        }
+                        )
                         .catch(err => console.log(err));
                 })
             })
@@ -82,21 +96,44 @@ class Matching extends Component {
         }
         return (
             <Container fluid>
-            <h3>Match: </h3>
-            <Row>
-                <Col size="md-4"></Col>
-                <Col size="md-4">
-                    {this.state.target_Name}
-                </Col>
-                <Col size="md-4"></Col>
-            </Row>
-            <Row> 
-                <Col size="md-4"></Col>
-                <Col size="md-4">
-                    {this.state.target_ProfileDesc}
-                </Col>
-                <Col size="md-4"></Col>
-            </Row>
+                <h3>Match: </h3>
+                <Row>
+                    <Col size="md-4"></Col>
+                    <Col size="md-4">
+                        {this.state.target_Name}
+                    </Col>
+                    <Col size="md-4"></Col>
+                </Row>
+                <Row>
+                    <Col size="md-4"></Col>
+                    <Col size="md-4">
+                        {this.state.target_ProfileDesc}
+                    </Col>
+                    <Col size="md-4"></Col>
+                </Row>
+                <Row>
+                    <Col size="md-4"></Col>
+                    <Col size="md-4">
+                        {this.state.bucketList.length ? (
+                            <Container>
+                                {console.log(this.state.bucketList)}
+                                {this.state.bucketList.map(item => (
+                                    // <strong> {console.log(this.state)} </strong>
+                                    <ListItem key={item._id}>
+                                        <strong>
+                                            {item.itemVerb}: {item.itemFreeText}
+                                        </strong>
+                                    </ListItem>
+                                ))}
+                            </Container>
+                        ) : (
+                                <h3>No Results to Display</h3>
+                            )}
+                        {this.state.target_bucketList}
+                    </Col>
+                    <Col size="md-4"></Col>
+
+                </Row>
             </Container>
         );
     }
