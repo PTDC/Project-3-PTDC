@@ -5,19 +5,19 @@ const Home = props => {
 	if (props.user) {
 		return (
 			<div className="Home">
-				<p>Current User:</p>
+				{/* <p>Current User:</p> 
 				<code>
 					{JSON.stringify(props)}
-				</code>
+				</code>*/}
 			</div>
 		)
 	} else {
 		return (
 			<div className="Home">
-				<p>Current User:</p>
+				 {/* <p>Current User:</p> 
 				<code>
 					{JSON.stringify(props)}
-				</code>
+				</code> */}
 			</div>
 		)
 	}

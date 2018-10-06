@@ -100,14 +100,14 @@ class Matching extends Component {
                 <Row>
                     <Col size="md-4"></Col>
                     <Col size="md-4">
-                        {this.state.target_Name}
+                    <h5>{this.state.target_Name}</h5>
                     </Col>
                     <Col size="md-4"></Col>
                 </Row>
                 <Row>
                     <Col size="md-4"></Col>
                     <Col size="md-4">
-                        {this.state.target_ProfileDesc}
+                    <h5>{this.state.target_ProfileDesc}</h5>
                     </Col>
                     <Col size="md-4"></Col>
                 </Row>
