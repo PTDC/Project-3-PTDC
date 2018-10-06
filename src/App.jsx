@@ -33,12 +33,14 @@ const DisplayLinks = props => {
 
             <Navbar>
                 <Navbar.Header>
-                    <Navbar.Brand>
-                        <Link to="/" className="nav-link">
-                            Home
-            			</Link>
-                    </Navbar.Brand>
+                <Navbar.Brand>
+                <Link to="/" className="nav-link">               
+            	</Link>
+                </Navbar.Brand>
                 </Navbar.Header>
+                <Link to="/" className="nav-link">
+                    Home
+            	</Link>
                 <Link to="/profile" className="nav-link">
                     Profile
                 </Link>
