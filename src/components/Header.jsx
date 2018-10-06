@@ -14,9 +14,9 @@ const Header = props => {
 	// 	)
 	} else if (props.user.local.username) {
 		Greeting = (
-			<p>
+			<h4>
 				Welcome back, <strong>{props.user.local.username} </strong>
-			</p>
+			</h4>
 		)
 	}
 	return (
