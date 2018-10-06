@@ -22,6 +22,7 @@ module.exports = {
     },
     update: function (req, res) {
         console.log("beginning of profileController update function")
+        console.log(( req.params.id, req.body))
         db.User
             .findOneAndUpdate({ _id: req.params.id }, req.body)
             .then(dbModel => {
