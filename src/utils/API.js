@@ -11,12 +11,12 @@ export default {
     //     return axios.delete("/api/books/" + id);
     // },
     createItem: function (item) {
-        console.log(item)
+        // console.log(item)
         return axios.post("/api/bucket/", item);
     },
 
     updateProfile: function(id, property) {
-        console.log(id, property)
+        // console.log(id, property)
         return axios.put("/api/profile/" + id, property);
     },
 
@@ -32,7 +32,10 @@ export default {
     deleteItem: function (id) {
         return axios.delete("/api/bucket/" + id);
     },
-
+    matchUserCall: function (verb) {
+        // console.log("this is API.js verb: " + verb)
+        return axios.get("/api/matching/" + verb);
+    }
     // saveImage: function(id, image) {
     //     console.log(id, image)
     //     return axios.put("/api/profile/" + id, image);

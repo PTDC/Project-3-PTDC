@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { BrowserRouter as Router, Route, Switch, Link, Redirect } from 'react-router-dom'
 import './App.css'
+import Matching from './pages/Matching'
 import LoginForm from './components/Login/LoginForm'
 import SignupForm from './components/SignupForm'
 import Header from './components/Header'
@@ -40,7 +41,10 @@ const DisplayLinks = props => {
                 </Navbar.Header>
                 <Link to="/profile" className="nav-link">
                     Profile
-                    </Link>
+                </Link>
+                <Link to="/match" className="nav-link">
+                    Match
+                </Link>
 
                 <Nav>
                     <Link to="#" className="nav-link" onClick={props._logout}>
@@ -193,6 +197,7 @@ class App extends Component {
                 <Switch>
                     <Route exact path="/profile" render={() => <Profile user={this.state.user} test={console.log(this.state.user)} />} />
                     <Route exact path="/" render={() => <Home user={this.state.user} />} />
+                    <Route exact path="/match" render={() => <Matching loggedUser = {this.state}/>}/> 
                     <Route
                         exact
                         path="/login"

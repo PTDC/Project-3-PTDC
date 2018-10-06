@@ -256,6 +256,7 @@ class Profile extends Component {
 
                         {this.state.bucketList.length ? (
                             <List>
+                                {console.log(this.state.bucketList)}
                                 {this.state.bucketList.map(item => (
                                     // <strong> {console.log(this.state)} </strong>
                                     <ListItem key={item._id}>
